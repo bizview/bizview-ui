@@ -1,0 +1,137 @@
+@import "../../node_modules/antd/dist/antd.less";
+
+#___gatsby {
+  height: 100%;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+  transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+
+#gatsby-focus-wrapper {
+  outline: none;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  > .ant-layout {
+    height: 100%;
+  }
+}
+
+.main-content-layout {
+  background: #fff;
+  padding: 24px;
+  min-height: unset;
+}
+
+.global-header-index-right {
+  float: right;
+  height: 100%;
+  margin-left: auto;
+  overflow: hidden;
+}
+
+.login-form {
+  min-width: 50%;
+  margin: 0 auto;
+}
+
+.header {
+  position: relative;
+  display: flex;
+}
+
+.list_toolbar a:not(:last-child) {
+  margin-right: 5px;
+}
+
+.card_toolbar {
+  a:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  button:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.form-actions {
+  button:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  text-align: right;
+}
+
+.zone {
+  .ant-col {
+    padding: 2px;
+  }
+
+  .ant-card-body {
+    padding: 5px;
+  }
+}
+
+.table {
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    line-height: 64px;
+
+    &-option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    &-item {
+      margin-right: 8px;
+    }
+
+    &-item-icon {
+      margin-left: 16px;
+      font-size: 16px;
+      cursor: pointer;
+
+      &:first-child {
+        margin-left: 8px;
+      }
+    }
+
+    &-title {
+      flex: 1;
+      color: #000;
+      font-size: 16px;
+      line-height: 24px;
+      opacity: 0.85;
+    }
+  }
+}
+
+.display-form-wrapper {
+  .ant-divider-horizontal {
+    margin: 12px 0;
+  }
+
+  .display-form-item {
+    display: flex;
+
+    label {
+      min-width: 220px;
+      font-weight: bold;
+    }
+  }
+}
+
+.link-button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
