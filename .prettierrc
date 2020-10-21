@@ -1,5 +1,6 @@
 {
   "printWidth": 240,
   "jsxBracketSameLine": true,
-  "proseWrap": "never"
+  "proseWrap": "never",
+  "semi": true
 }

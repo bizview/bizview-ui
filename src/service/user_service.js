@@ -21,8 +21,14 @@ export const login = async values => {
 };
 
 export const getUserProfile = async () => {
-  const response = await fetchWithToken(apiUrl + "/1/user/currentUser");
-  return await response.json();
+  try {
+    const response = await fetchWithToken(apiUrl + "/1/user/currentUser");
+    return await response.json();
+  } catch (e) {
+    localStorage.clear();
+    const response = await fetch(apiUrl + "/1/user/currentUser");
+    return await response.json();
+  }
 };
 
 export const getAllUsers = async () => {

@@ -1,25 +1,25 @@
-import React, { useContext, useEffect, useState } from "react"
-import { getLists } from "../service/list_service"
-import { Card, List, Spin } from "antd"
-import DefaultLayout from "../components/default_layout/default_layout"
-import { PageContext } from "../service/util_service"
+import React, { useContext, useEffect, useState } from "react";
+import { getLists } from "../service/list_service";
+import { Card, List, Spin } from "antd";
+import DefaultLayout from "../components/default_layout/default_layout";
+import { PageContext } from "../service/util_service";
 
 export default function() {
-  const [loading, setLoading] = useState(true)
-  const [lists, setLists] = useState([])
-  let { siteInfo } = useContext(PageContext)
+  const [loading, setLoading] = useState(true);
+  const [lists, setLists] = useState([]);
+  let { siteInfo } = useContext(PageContext);
 
   useEffect(() => {
     async function fetch() {
-      const lists = await getLists(siteInfo.siteId)
-      setLists(lists)
-      setLoading(false)
+      const lists = await getLists(siteInfo.siteId);
+      setLists(lists);
+      setLoading(false);
     }
 
     if (siteInfo) {
-      fetch().then()
+      fetch().then();
     }
-  }, [siteInfo])
+  }, [siteInfo]);
 
   return (
     <DefaultLayout>
@@ -46,5 +46,5 @@ export default function() {
         </Spin>
       </Card>
     </DefaultLayout>
-  )
+  );
 };
