@@ -1,7 +1,7 @@
-import { host, apiUrl, fetchWithToken } from "./base_service";
+import { apiUrl, fetchWithToken } from "./base_service";
 
 export const getTheme = async () => {
-  const response = await fetch(host + window.location.pathname + "/api/1.0/site/theme");
+  const response = await fetch("/api/1.0/site/theme");
   return await response.json();
 };
 

@@ -14,5 +14,12 @@ module.exports = {
         }
       }
     }
-  ]
+  ],
+  proxy: [{
+    prefix: "/api",
+    url: "http://localhost:8080"
+  }, {
+    prefix: "/oauth",
+    url: "http://localhost:8080"
+  }]
 };

@@ -1,5 +1,5 @@
 import { encode } from "base-64";
-import { host, apiUrl, fetchWithToken } from "./base_service";
+import { apiUrl, fetchWithToken } from "./base_service";
 
 export const login = async values => {
   let headers = new Headers();
@@ -9,7 +9,7 @@ export const login = async values => {
   formData.append("username", values.username);
   formData.append("password", values.password);
   formData.append("grant_type", "password");
-  const response = await fetch(host + "/oauth/token", {
+  const response = await fetch("/oauth/token", {
     method: "post",
     headers,
     body: formData
@@ -42,17 +42,23 @@ export const findUsers = async name => {
 };
 
 export const createUser = async user => {
-  const response = await fetchWithToken(apiUrl + "/1/user/create", {
+  const response = await fetchWithToken(apiUrl + "/1/user", {
     method: "post",
-    body: user
+    body: JSON.stringify(user)
   });
   return await response.json();
 };
 
+export const getUser = async id => {
+  const response = await fetchWithToken(apiUrl + `/1/user/get/${id}`);
+  return await response.json();
+};
+
 export const updateUser = async user => {
-  const response = await fetchWithToken(apiUrl + "/1/user/update", {
+  const op = user.password ? "update_set_password" : "update";
+  const response = await fetchWithToken(apiUrl + `/1/user/${op}`, {
     method: "put",
-    body: user
+    body: JSON.stringify(user)
   });
   return await response.json();
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllUsers } from "../service/user_service";
-import { Button, Card, Spin, Table, message } from "antd";
+import { Button, Card, Spin, Table, message, Divider } from "antd";
 import DefaultLayout from "../components/default_layout/default_layout";
 
 export default function() {
@@ -11,14 +11,22 @@ export default function() {
       key: "id"
     },
     {
-      title: "账号",
+      title: "姓名",
       dataIndex: "username",
       key: "username"
     },
     {
-      title: "姓名",
+      title: "账号",
       dataIndex: "name",
       key: "name"
+    },
+    {
+      title: "操作",
+      key: "op",
+      render: (record) => {
+        return <><a href={`/user/edit_user?u=${record.id}`}>编辑</a><Divider type="vertical"/><Button
+          className={"link-button"}>删除</Button></>;
+      }
     }
   ];
 
@@ -32,7 +40,7 @@ export default function() {
         setLoading(false);
         setDataSource(dataSource);
       } catch (e) {
-        message.error(e);
+        message.error(e.toString());
         setLoading(false);
       }
     }
@@ -45,7 +53,7 @@ export default function() {
       title="用户管理"
       bordered={false}
       extra={
-        <Button type="primary">创建</Button>
+        <a href={"/user/create_user"}>创建</a>
       }>
       <Spin spinning={loading}>
         <Table dataSource={dataSource} columns={columns} rowKey="id"/>

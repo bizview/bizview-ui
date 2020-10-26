@@ -1,7 +1,6 @@
 import { replaceUrl } from "./util_service";
 
-export const host = process.env.GATSBY_API_URL;
-export const apiUrl = host + "/api/1.0";
+export const apiUrl = "/api/1.0";
 
 export const fetchWithToken = (url, options = {}) => {
   try {

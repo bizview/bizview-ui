@@ -13,7 +13,7 @@ export default function User() {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <button className={"link-button"}
+        <button className={"link-button"} style={{ width: "100%" }}
                 onClick={() => {
                   localStorage.clear();
                   window.location.href = "/login";
@@ -27,7 +27,7 @@ export default function User() {
   return <>
     {user && user.id > 0 ? (
       <Dropdown overlay={menu} placement="bottomRight">
-        <Avatar style={{ backgroundColor: "#87d068" }}>{user.displayName[0]}</Avatar>
+        <Avatar style={{ backgroundColor: "#87d068" }}>{user.username[0]}</Avatar>
       </Dropdown>
     ) : (
       <a href={"/login"}>登录</a>
