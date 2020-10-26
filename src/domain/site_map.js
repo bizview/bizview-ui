@@ -8,7 +8,12 @@ export const siteMap = [
         href: "~/settings",
         title: "设置",
         children: [
-          { href: "~/user", title: "用户" },
+          {
+            href: "~/user", title: "用户", children: [
+              { href: "~/user/create_user", title: "创建用户", onNav: false },
+              { href: "~/user/edit_user", title: "编辑用户", onNav: false }
+            ]
+          },
           { href: "~/group", title: "组" },
           { href: "~/share", title: "共享" },
           { href: "~/feature", title: "功能" },

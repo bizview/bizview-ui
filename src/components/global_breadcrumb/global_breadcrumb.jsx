@@ -12,7 +12,9 @@ const getBreadcrumb = (siteInfo) => {
 const matchRoute = (siteInfo, nodes, rootNode) => {
   for (const node of nodes) {
     node.href = replaceUrl(siteInfo, node.href);
+    node.noHref = false;
     if (node.href === window.location.pathname) {
+      node.noHref = true;
       rootNode.push(node);
       return node;
     } else if (node.children) {
@@ -32,7 +34,7 @@ export default function GlobalBreadcrumb() {
   return <>
     <Breadcrumb style={{ margin: "16px 0", flex: 1 }}>
       {breadCrumb.map(crumb => (
-        <Breadcrumb.Item key={crumb.title} href={crumb.href}>
+        <Breadcrumb.Item key={crumb.title} href={crumb.noHref ? "#" : crumb.href}>
           <span>{crumb.title}</span>
         </Breadcrumb.Item>
       ))}
