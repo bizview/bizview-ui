@@ -14,7 +14,12 @@ export const siteMap = [
               { href: "~/user/edit_user", title: "编辑用户", onNav: false }
             ]
           },
-          { href: "~/group", title: "组" },
+          {
+            href: "~/group", title: "组", children: [
+              { href: "~/group/create_group", title: "创建组", onNav: false },
+              { href: "~/group/edit_group", title: "编辑组", onNav: false }
+            ]
+          },
           { href: "~/share", title: "共享" },
           { href: "~/feature", title: "功能" },
           { href: "~/app", title: "应用程序" },

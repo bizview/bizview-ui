@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { getAllUsers } from "../service/user_service";
-import { Button, Card, Spin, Table, message, Divider } from "antd";
+import { getAllUsers, deleteUser } from "../service/user_service";
+import { Button, Card, Spin, Table, message, Divider, Popconfirm } from "antd";
 import DefaultLayout from "../components/default_layout/default_layout";
 
 export default function() {
+  const deleteUserFunc = async (id) => {
+    setLoading(true);
+    await deleteUser(id);
+    const dataSource = await getAllUsers();
+    setDataSource(dataSource);
+    setLoading(false);
+    message.success("删除成功");
+  };
+
   const columns = [
     {
       title: "id",
@@ -24,8 +33,18 @@ export default function() {
       title: "操作",
       key: "op",
       render: (record) => {
-        return <><a href={`/user/edit_user?u=${record.id}`}>编辑</a><Divider type="vertical"/><Button
-          className={"link-button"}>删除</Button></>;
+        return <><a href={`/user/edit_user?u=${record.id}`}>编辑</a><Divider type="vertical"/>
+          <Popconfirm
+            title="你想要删除这条纪录吗?"
+            onConfirm={() => {
+              deleteUserFunc(record.id).then();
+            }}
+            okText="是"
+            cancelText="否"
+          >
+            <Button className={"link-button"}> 删除</Button>
+          </Popconfirm>
+        </>;
       }
     }
   ];

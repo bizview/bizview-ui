@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getAllUsers } from "../service/user_service";
-import { Button, Card, Spin, Table, message } from "antd";
+import { Button, Card, Spin, Table, message, Divider, Popconfirm } from "antd";
 import DefaultLayout from "../components/default_layout/default_layout";
+import { deleteGroup, getGroups } from "../service/group_service";
 
 
 export default function() {
+  const [loading, setLoading] = useState(true);
+  const [dataSource, setDataSource] = useState([]);
+
+  const deleteUserFunc = async (id) => {
+    setLoading(true);
+    await deleteGroup(id);
+    const dataSource = await getGroups();
+    setDataSource(dataSource);
+    setLoading(false);
+    message.success("删除成功");
+  };
+
   const columns = [
     {
       title: "id",
@@ -12,24 +24,35 @@ export default function() {
       key: "id"
     },
     {
-      title: "账号",
-      dataIndex: "username",
-      key: "username"
-    },
-    {
-      title: "姓名",
+      title: "组名",
       dataIndex: "name",
       key: "name"
+    },
+    {
+      title: "操作",
+      key: "op",
+      render: (record) => {
+        return <><a href={`/group/edit_group?u=${record.id}`}>编辑</a><Divider type="vertical"/>
+          <Popconfirm
+            title="你想要删除这条纪录吗?"
+            onConfirm={() => {
+              deleteUserFunc(record.id).then();
+            }}
+            okText="是"
+            cancelText="否"
+          >
+            <Button className={"link-button"}> 删除</Button>
+          </Popconfirm>
+        </>;
+      }
     }
   ];
 
-  const [loading, setLoading] = useState(true);
-  const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataSource = await getAllUsers();
+        const dataSource = await getGroups();
         setLoading(false);
         setDataSource(dataSource);
       } catch (e) {
@@ -46,7 +69,7 @@ export default function() {
       title="组管理"
       bordered={false}
       extra={
-        <Button type="primary">创建</Button>
+        <a href={"/group/create_group"}> <Button type="primary">创建</Button></a>
       }>
       <Spin spinning={loading}>
         <Table dataSource={dataSource} columns={columns} rowKey="id"/>

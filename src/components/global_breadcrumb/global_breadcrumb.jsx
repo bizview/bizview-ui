@@ -18,8 +18,11 @@ const matchRoute = (siteInfo, nodes, rootNode) => {
       rootNode.push(node);
       return node;
     } else if (node.children) {
+      console.log(node.href);
       const subNode = matchRoute(siteInfo, node.children, rootNode);
+
       if (subNode) {
+        console.log(subNode.href);
         rootNode.push(node);
       }
       return node;

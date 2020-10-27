@@ -64,10 +64,9 @@ export const updateUser = async user => {
 };
 
 export const deleteUser = async id => {
-  const response = await fetchWithToken(apiUrl + "/1/user/delete/" + id, {
+  await fetchWithToken(apiUrl + "/1/user/delete/" + id, {
     method: "delete"
   });
-  return await response.json();
 };
 
 export const resetPassword = async user => {
