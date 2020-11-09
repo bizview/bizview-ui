@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import { Form, Button, Select, Checkbox, Spin, Card, Table } from "antd";
-import { findUsers } from "../service/user_service";
+import { Form, Button, Select, Checkbox, Spin, Card, Table, message, Popconfirm } from "antd";
+import { findUsersAndGroups } from "../service/user_service";
 import {
-  findRoleAssignmentById,
+  findRoleAssignmentBySiteIdAndPrincipleId,
   createRoleAssignments,
   deleteRoleAssignments,
   getPermissionGroups,
@@ -11,8 +11,17 @@ import {
 } from "../service/share_service";
 import { PageContext } from "../service/util_service";
 import DefaultLayout from "../components/default_layout/default_layout";
+import styles from "./share.module.css";
 
 const CheckboxGroup = Checkbox.Group;
+
+const layout = {
+  labelCol: { span: 2 },
+  wrapperCol: { span: 12 }
+};
+const tailLayout = {
+  wrapperCol: { offset: 2, span: 16 }
+};
 
 function ShareEditForm(props) {
   let { siteInfo } = useContext(PageContext);
@@ -20,7 +29,7 @@ function ShareEditForm(props) {
   const [fetching, setFetching] = useState(false);
   const [users, setUsers] = useState([]);
   const [permissions, setPermissions] = useState([]);
-  const [roleAssignment, setRoleAssignment] = useState(null);
+  const [roleAssignments, setRoleAssignments] = useState(null);
   const handleSubmit = async (values) => {
     const assignments = [];
     values.user.forEach(u => {
@@ -34,51 +43,54 @@ function ShareEditForm(props) {
         });
       });
     });
-    await createRoleAssignments(assignments);
+    await createRoleAssignments(siteInfo.siteId, assignments);
     window.location.href = "#/";
   };
 
   const fetchUser = async name => {
     if (!name) return;
-    setFetching(true);
-    const users = await findUsers(name);
-    const plainUsers = users.map(user => ({
-      text: `${user.name}`,
-      value: user.id
-    }));
-    setUsers(plainUsers);
-    setFetching(false);
+    try {
+      setFetching(true);
+      const users = await findUsersAndGroups(name);
+      const plainUsers = users.map(user => ({
+        text: `${user.name}`,
+        value: user.id
+      }));
+      setUsers(plainUsers);
+    } catch (e) {
+      message.error(e.toString());
+    } finally {
+      setFetching(false);
+    }
   };
-
-  const deleteRoles = async () => {
-    await deleteRoleAssignments([{ id }]);
-    window.location.href = "#/";
-  };
-
 
   useEffect(() => {
     async function fetch() {
-      const permissions = await getPermissionGroups();
-      if (id) {
-        const roleAssignment = await findRoleAssignmentById(id);
-        setRoleAssignment(roleAssignment);
+      try {
+        const permissions = await getPermissionGroups();
+        if (id) {
+          const roleAssignments = await findRoleAssignmentBySiteIdAndPrincipleId(siteInfo.siteId, id);
+          setRoleAssignments(roleAssignments);
+        }
+        setPermissions(permissions);
+      } catch (e) {
+        message.error(e.toString());
       }
-      setPermissions(permissions);
     }
 
     fetch().then();
-  }, [id]);
-  const disabled = !!id;
-  if (id && !roleAssignment) {
+  }, [siteInfo.siteId, id]);
+  if (id && !roleAssignments) {
     return <Spin/>;
   }
   return (
-    <Form onFinish={handleSubmit} initialValues={{
-      user: roleAssignment ? [{ label: roleAssignment.user.name, key: roleAssignment.user.id }] : undefined,
-      permissions: roleAssignment ? [roleAssignment.permissionGroup.id] : []
+    <Form onFinish={handleSubmit} {...layout} initialValues={{
+      user: roleAssignments ? [{ label: roleAssignments[0].user.name, key: roleAssignments[0].user.id }] : undefined,
+      permissions: roleAssignments ? roleAssignments.map(o => o.permissionGroup.id) : []
     }}>
-      <Form.Item name={"user"} label="选择用户" rules={[{ required: true, message: "Please select at lease one user!" }]}>
-        <Select disabled={disabled} mode="multiple" labelInValue placeholder="Select users"
+      <Form.Item name={"user"} label="选择用户/组"
+                 rules={[{ required: true, message: "Please select at lease one user or group!" }]}>
+        <Select mode="multiple" labelInValue placeholder="Select users"
                 notFoundContent={fetching ? <Spin size="small"/> : null} filterOption={false}
                 onSearch={fetchUser} style={{ width: "100%", minWidth: "320px" }}>
           {users.map(d => (
@@ -92,22 +104,17 @@ function ShareEditForm(props) {
         required: true,
         message: "Please select at lease one permission!"
       }]}>
-        <CheckboxGroup disabled={disabled} options={permissions.map(p => ({ label: p.name, value: p.id }))}/>
+        <CheckboxGroup options={permissions.map(p => ({ label: p.name, value: p.id }))}/>
       </Form.Item>
-      <Form.Item>
-        {!disabled && (
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            save
-          </Button>
-        )}
-        {id && (
-          <Button type="primary" className="login-form-button" onClick={deleteRoles}>
-            delete
-          </Button>
-        )}
-        <Button type="primary" className="login-form-button">
-          cancel
+      <Form.Item  {...tailLayout}>
+        <Button type="primary" htmlType="submit" className={styles.formButton}>
+          保存
         </Button>
+        <a href={"/share"}>
+          <Button type="primary" className={styles.formButton}>
+            取消
+          </Button>
+        </a>
       </Form.Item>
     </Form>
   );
@@ -121,45 +128,54 @@ const ShareList = function() {
       title: "名称",
       key: "name",
       render: item => {
-        return <a href={`#/edit/${item.id}`}>{item.user.name}</a>;
+        return <a href={`#/edit/${item.id}`}>{item.displayName}</a>;
       }
     },
     {
       title: "类型",
       key: "type",
+      dataIndex: "type",
       render: item => {
-        return item.user ? "用户" : "组";
+        return item === "USER" ? "用户" : "组";
       }
     },
     {
       title: "权限",
-      key: "permissionName",
-      render: r => r.permissionGroup.name
+      key: "permission",
+      dataIndex: "permission"
+    },
+    {
+      title: "操作",
+      key: "ops",
+      render: item => <Popconfirm
+        title="你想要删除这条纪录吗?"
+        onConfirm={() => {
+          deleteShare(item.id).then();
+        }}
+        okText="是"
+        cancelText="否"
+      ><Button>删除</Button>
+      </Popconfirm>
     }
   ];
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
 
-
-  useEffect(() => {
-    async function fetch() {
-      const dataSource = await getRoleAssignments(siteInfo.siteId);
-      setLoading(false);
-      setDataSource(dataSource);
-    }
-
-    fetch().then();
+  const fetch = useCallback(async () => {
+    const dataSource = await getRoleAssignments(siteInfo.siteId);
+    setLoading(false);
+    setDataSource(dataSource);
   }, [siteInfo.siteId]);
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, "selectedRows: ", selectedRows);
-    },
-    getCheckboxProps: record => ({
-      disabled: record.name === "Disabled User", // Column configuration not to be checked
-      name: record.name
-    })
+  const deleteShare = async (id) => {
+    setLoading(true);
+    await deleteRoleAssignments(siteInfo.siteId, [id]);
+    await fetch();
   };
+
+  useEffect(() => {
+    fetch().then();
+  }, [fetch, siteInfo.siteId]);
 
   return (
     <Card
@@ -174,7 +190,7 @@ const ShareList = function() {
         </div>
       }>
       <Spin spinning={loading}>
-        <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} rowKey="id"/>
+        <Table dataSource={dataSource} columns={columns} rowKey="name"/>
       </Spin>
     </Card>
   );

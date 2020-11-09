@@ -15,8 +15,14 @@ export const findRoleAssignmentById = async id => {
   return await response.json();
 };
 
-export const createRoleAssignments = async roleAssignments => {
-  const response = await fetchWithToken(apiUrl + "/roleassignment", {
+export const findRoleAssignmentBySiteIdAndPrincipleId = async (siteId, id) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/site/${siteId}/${id}`);
+  return await response.json();
+};
+
+
+export const createRoleAssignments = async (siteId, roleAssignments) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/create/${siteId}`, {
     method: "post",
     body: JSON.stringify(roleAssignments)
   });
@@ -31,10 +37,10 @@ export const updateRoleAssignments = async roleAssignments => {
   return await response.text();
 };
 
-export const deleteRoleAssignments = async roleAssignments => {
-  const response = await fetchWithToken(apiUrl + "/roleassignment", {
-    method: "delete",
-    body: JSON.stringify(roleAssignments)
+export const deleteRoleAssignments = async (siteId, userIds) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/delete/${siteId}`, {
+    method: "post",
+    body: JSON.stringify(userIds)
   });
   return await response.text();
 };

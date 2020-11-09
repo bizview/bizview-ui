@@ -41,6 +41,11 @@ export const findUsers = async name => {
   return await response.json();
 };
 
+export const findUsersAndGroups = async name => {
+  const response = await fetchWithToken(apiUrl + "/1/user/findAll/" + name);
+  return await response.json();
+};
+
 export const createUser = async user => {
   const response = await fetchWithToken(apiUrl + "/1/user", {
     method: "post",
