@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { Form, Button, Select, Checkbox, Spin, Card, Table, message, Popconfirm } from "antd";
 import { findUsersAndGroups } from "../service/user_service";
 import {
@@ -12,6 +11,7 @@ import {
 import { PageContext } from "../service/util_service";
 import DefaultLayout from "../components/default_layout/default_layout";
 import styles from "./share.module.css";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -23,9 +23,11 @@ const tailLayout = {
   wrapperCol: { offset: 2, span: 16 }
 };
 
+const location = typeof window !== "undefined" ? window.location : {};
+
 function ShareEditForm(props) {
   let { siteInfo } = useContext(PageContext);
-  const id = props.match.params.id;
+  const id = props.id;
   const [fetching, setFetching] = useState(false);
   const [users, setUsers] = useState([]);
   const [permissions, setPermissions] = useState([]);
@@ -44,7 +46,7 @@ function ShareEditForm(props) {
       });
     });
     await createRoleAssignments(siteInfo.siteId, assignments);
-    window.location.href = "#/";
+    location.href = "#/";
   };
 
   const fetchUser = async name => {

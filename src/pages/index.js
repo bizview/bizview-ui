@@ -4,7 +4,7 @@ import { Card, List, Spin } from "antd";
 import DefaultLayout from "../components/default_layout/default_layout";
 import { PageContext } from "../service/util_service";
 
-export default function() {
+function Index() {
   const [loading, setLoading] = useState(true);
   const [lists, setLists] = useState([]);
   let { siteInfo } = useContext(PageContext);
@@ -48,3 +48,5 @@ export default function() {
     </DefaultLayout>
   );
 };
+
+export default Index;

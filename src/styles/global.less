@@ -1,23 +1,24 @@
 @import "../../node_modules/antd/dist/antd.less";
 
-#___gatsby {
+#__next {
   height: 100%;
   display: flex;
   display: -webkit-flex;
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
   transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-}
 
-#gatsby-focus-wrapper {
-  outline: none;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-
-  > .ant-layout {
+  > div {
+    outline: none;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
+
+
+    > .ant-layout {
+      height: 100%;
+    }
   }
 }
 

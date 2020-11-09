@@ -4,6 +4,7 @@ import { Form, Input, Button, message } from "antd";
 import { login } from "../service/user_service";
 import styles from "./login.module.css";
 
+const location = typeof window !== "undefined" ? window.location : {};
 export default function LoginForm() {
   const layout = {
     labelCol: { span: 8 },
@@ -13,7 +14,7 @@ export default function LoginForm() {
   const onFinish = async values => {
     try {
       localStorage.setItem("access_token", (await login(values)).access_token);
-      window.location.href = "/";
+      location.href = "/";
     } catch (e) {
       message.warn("请检查用户名密码是否正确!, 详细信息:" + e);
     }

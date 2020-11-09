@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { createList, getApplication, getApplications } from "../service/list_service";
 import { Button, Card, Form, Input, List, Spin } from "antd";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { PageContext } from "../service/util_service";
 import DefaultLayout from "../components/default_layout/default_layout";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
+const location = typeof window !== "undefined" ? window.location : {};
 function Application() {
   const [apps, setApps] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,18 +61,18 @@ function AppCreator(props) {
       templateId: application.id,
       ...values
     });
-    window.location.href = "#/";
+    location.href = "#/";
   };
 
   useEffect(() => {
     async function fetch() {
-      const application = await getApplication(props.match.params.id);
+      const application = await getApplication(props.id);
       setApplication(application);
       setLoading(false);
     }
 
     fetch().then();
-  }, [props.match.params.id]);
+  }, [props.id]);
 
   return (
     <Spin spinning={loading}>

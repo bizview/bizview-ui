@@ -3,6 +3,9 @@ import React, { useContext } from "react";
 import { PageContext, replaceUrl } from "../../service/util_service";
 import { siteMap } from "../../domain/site_map";
 
+
+const location = typeof window !== 'undefined' ? window.location : {};
+
 const getBreadcrumb = (siteInfo) => {
   const rootNode = [];
   matchRoute(siteInfo, siteMap, rootNode);
@@ -13,7 +16,7 @@ const matchRoute = (siteInfo, nodes, rootNode) => {
   for (const node of nodes) {
     node.href = replaceUrl(siteInfo, node.href);
     node.noHref = false;
-    if (node.href === window.location.pathname) {
+    if (node.href === location.pathname) {
       node.noHref = true;
       rootNode.push(node);
       return node;

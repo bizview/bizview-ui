@@ -12,6 +12,8 @@ const tailLayout = {
   wrapperCol: { offset: 2, span: 16 }
 };
 
+const location = typeof window !== "undefined" ? window.location : {};
+
 export default function(props) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -37,7 +39,7 @@ export default function(props) {
         ...values
       });
       message.success("更新成功");
-      window.location.href = "/user";
+      location.href = "/user";
     } catch (e) {
       message.error(`创建用户失败, ${e.toString()}`);
     } finally {

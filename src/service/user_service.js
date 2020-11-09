@@ -9,7 +9,7 @@ export const login = async values => {
   formData.append("username", values.username);
   formData.append("password", values.password);
   formData.append("grant_type", "password");
-  const response = await fetch("/oauth/token", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/oauth/token`, {
     method: "post",
     headers,
     body: formData

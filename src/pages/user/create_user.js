@@ -11,6 +11,8 @@ const tailLayout = {
   wrapperCol: { offset: 2, span: 16 }
 };
 
+const location = typeof window !== "undefined" ? window.location : {};
+
 export default function() {
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +21,7 @@ export default function() {
     try {
       await createUser(values);
       message.success("创建成功");
-      window.location.href = "/user";
+      location.href = "/user";
     } catch (e) {
       message.error(`创建用户失败, ${e.toString()}`);
     } finally {

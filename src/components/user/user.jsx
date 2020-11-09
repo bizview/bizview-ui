@@ -2,6 +2,7 @@ import { Avatar, Dropdown, Menu } from "antd";
 import React, { useContext } from "react";
 import { PageContext, replaceUrl } from "../../service/util_service";
 
+const location = typeof window !== "undefined" ? window.location : {};
 export default function User() {
   let { user, siteInfo } = useContext(PageContext);
 
@@ -16,7 +17,7 @@ export default function User() {
         <button className={"link-button"} style={{ width: "100%" }}
                 onClick={() => {
                   localStorage.clear();
-                  window.location.href = "/login";
+                  location.href = "/login";
                 }}>
           退出登录
         </button>

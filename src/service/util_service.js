@@ -2,7 +2,7 @@ import { getUserProfile } from "./user_service";
 import React from "react";
 
 export const replaceUrl = (siteInfo, url) => {
-  return url.replace(/~\//s, siteInfo.siteId === 1 ? "/" : `/s/${siteInfo.siteId}/`);
+  return url.replace(/~\//s, siteInfo === undefined || siteInfo.siteId === 1 ? "/" : `/s/${siteInfo.siteId}/`);
 };
 
 export const uuid = () => {
@@ -26,7 +26,8 @@ export const uuid = () => {
 };
 
 function getContext() {
-  const url = window.location.href;
+  const location = typeof window !== "undefined" ? window.location : {};
+  const url = location.href;
   const regex = /\/s\/(?<sid>\w+)(\/l\/(?<lid>\w+))?(\/i\/(<iid>\w+))?/;
   const matches = url.match(regex);
   let siteId = 1;
@@ -44,7 +45,9 @@ function getContext() {
   };
 }
 
-export const PageContext = React.createContext({});
+export const PageContext = React.createContext({
+  siteInfo: {}
+});
 
 export async function getPageState() {
   const user = await getUserProfile();

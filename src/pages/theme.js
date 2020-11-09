@@ -4,6 +4,7 @@ import { Button, Card, List, Spin, message } from "antd";
 import { PageContext } from "../service/util_service";
 import DefaultLayout from "../components/default_layout/default_layout";
 
+const location = typeof window !== "undefined" ? window.location : {};
 export default function() {
   const [loading, setLoading] = useState(true);
   const [themes, setThemes] = useState([]);
@@ -24,7 +25,7 @@ export default function() {
     await setTheme(siteInfo.siteId, name);
     setLoading(false);
     message.success("激活成功!");
-    window.location.reload();
+    location.reload();
   };
 
   return <DefaultLayout>

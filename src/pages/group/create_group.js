@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import DefaultLayout from "../../components/default_layout/default_layout";
 import { createGroup } from "../../service/group_service";
 
+const location = typeof window !== "undefined" ? window.location : {};
 const layout = {
   labelCol: { span: 2 },
   wrapperCol: { span: 12 }
@@ -19,7 +20,7 @@ export default function() {
     try {
       await createGroup(values);
       message.success("创建成功");
-      window.location.href = "/group";
+      location.href = "/group";
     } catch (e) {
       message.error(`创建组失败, ${e.toString()}`);
     } finally {
