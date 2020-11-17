@@ -1,9 +1,8 @@
-import DefaultLayout from "../components/default_layout/default_layout";
-import React, { useContext } from "react";
+import DefaultLayout from "../../../components/default_layout/default_layout";
+import React, { useContext, useEffect } from "react";
 import { Card } from "antd";
-import { siteMap } from "../domain/site_map";
-import { PageContext, replaceUrl } from "../service/util_service";
-
+import { siteMap } from "../../../domain/site_map";
+import { PageContext, replaceUrl } from "../../../service/util_service";
 
 
 export default function Settings() {

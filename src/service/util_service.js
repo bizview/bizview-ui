@@ -1,5 +1,6 @@
 import { getUserProfile } from "./user_service";
 import React from "react";
+import { Subject } from "rxjs";
 
 export const replaceUrl = (siteInfo, url) => {
   return url.replace(/~\//s, siteInfo === undefined || siteInfo.siteId === 1 ? "/" : `/s/${siteInfo.siteId}/`);
@@ -28,7 +29,7 @@ export const uuid = () => {
 function getContext() {
   const location = typeof window !== "undefined" ? window.location : {};
   const url = location.href;
-  const regex = /\/s\/(?<sid>\w+)(\/l\/(?<lid>\w+))?(\/i\/(<iid>\w+))?/;
+  const regex = /\/s\/(?<sid>\w+)(\/l\/(?<lid>\w+))?(\/i\/(?<iid>\w+))?/;
   const matches = url.match(regex);
   let siteId = 1;
   let listId;
@@ -53,6 +54,7 @@ export async function getPageState() {
   const user = await getUserProfile();
   return {
     user,
+    eventBus: new Subject(),
     siteInfo: getContext()
   };
 }

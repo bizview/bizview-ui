@@ -6,12 +6,15 @@
   "license": "0BSD",
   "scripts": {
     "build": "next build",
+    "export": "next export",
     "dev": "next dev",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "next start"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "@ckeditor/ckeditor5-build-classic": "^23.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.0",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
@@ -22,10 +25,11 @@
     "js-cookie": "^2.2.1",
     "less": "^3.12.2",
     "next": "latest",
-    "query-string": "^6.13.6",
+    "query-string": "^6.13.7",
     "react": "^16.12.0",
     "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "rxjs": "^6.6.3"
   },
   "devDependencies": {
     "prettier": "2.1.2"

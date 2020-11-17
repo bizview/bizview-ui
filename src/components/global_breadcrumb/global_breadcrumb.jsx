@@ -2,9 +2,10 @@ import { Breadcrumb } from "antd";
 import React, { useContext } from "react";
 import { PageContext, replaceUrl } from "../../service/util_service";
 import { siteMap } from "../../domain/site_map";
+import MenuBar from "../menu_bar/menu_bar";
 
 
-const location = typeof window !== 'undefined' ? window.location : {};
+const location = typeof window !== "undefined" ? window.location : {};
 
 const getBreadcrumb = (siteInfo) => {
   const rootNode = [];
@@ -42,7 +43,8 @@ export default function GlobalBreadcrumb() {
         </Breadcrumb.Item>
       ))}
     </Breadcrumb>
-    <div style={{ marginRight: "5px", display: "flex" }}>
+    <div style={{ marginRight: "5px", display: "flex", alignItems: "center" }}>
+      <MenuBar/>
       <a href={replaceUrl(siteInfo, `~/`)}>所有内容</a>
     </div>
   </>;

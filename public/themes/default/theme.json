@@ -1,0 +1,25 @@
+{
+  "title": "默认主题",
+  "views": [
+    {
+      "name": "默认视图",
+      "path": "/_t/default/forms/default.js"
+    }
+  ],
+  "layouts": [
+    {
+      "name": "二栏",
+      "path": "default_page_layout"
+    },
+    {
+      "name": "三栏",
+      "path": "three_columns_page_layout"
+    }
+  ],
+  "elements": [
+    {
+      "name": "日历",
+      "path": "/_t/default/controls/calendar.js"
+    }
+  ]
+}
