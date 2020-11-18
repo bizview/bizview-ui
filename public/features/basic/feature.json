@@ -1,0 +1,139 @@
+{
+  "name": "基础功能",
+  "description": "基础列表",
+  "event": "com.datawhy.service.FeatureEventsImpl",
+  "listTemplates": [
+    {
+      "name": "list",
+      "title": "列表",
+      "description": "",
+      "list": {
+        "isVirtual": false,
+        "fields": [],
+        "properties": {
+          "forms": {
+            "newForm": "create",
+            "editForm": "edit",
+            "displayForm": "display"
+          },
+          "views": [
+            {
+              "defaultView": true,
+              "title": "默认视图",
+              "name": "defaultView",
+              "fields": [
+                "id",
+                "name"
+              ],
+              "filter": {
+                "orderBy": "id asc",
+                "limit": 10
+              },
+              "path": "default_view"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "page",
+      "title": "页面库",
+      "description": "",
+      "list": {
+        "isVirtual": false,
+        "fields": [
+          {
+            "name": "title",
+            "title": "显示名",
+            "dataType": "STRING"
+          },
+          {
+            "name": "layout",
+            "title": "布局",
+            "dataType": "STRING",
+            "props": "{\"type\":\"LAYOUT\"}"
+          },
+          {
+            "name": "body",
+            "title": "HTML内容",
+            "dataType": "TEXT",
+            "props": "{\"type\":\"HTML\"}"
+          }
+        ],
+        "properties": {
+          "forms": {
+            "newForm": "create_page",
+            "editForm": "edit",
+            "displayForm": "display"
+          },
+          "views": [
+            {
+              "defaultView": true,
+              "title": "默认视图",
+              "name": "default",
+              "fields": [
+                "id",
+                "name",
+                "title"
+              ],
+              "filter": {
+                "orderBy": "id asc",
+                "limit": 10
+              },
+              "path": "page_view"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "document",
+      "title": "文档库",
+      "description": "",
+      "list": {
+        "isVirtual": false,
+        "fields": [],
+        "properties": {
+          "forms": {
+            "newForm": "upload_document",
+            "editForm": "edit",
+            "displayForm": "display"
+          },
+          "views": [
+            {
+              "defaultView": true,
+              "title": "默认视图",
+              "name": "default",
+              "fields": [
+                "id",
+                "name"
+              ],
+              "filter": {
+                "orderBy": "id asc",
+                "limit": 10
+              },
+              "path": "document_view"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "listInstances": [
+    {
+      "template": "list",
+      "name": "list1",
+      "title": "项目"
+    },
+    {
+      "template": "page",
+      "name": "pages",
+      "title": "页面库"
+    },
+    {
+      "template": "document",
+      "name": "doc1",
+      "title": "文档"
+    }
+  ]
+}
