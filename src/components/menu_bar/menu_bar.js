@@ -7,7 +7,7 @@ import { Divider } from "antd";
 
 export default function MenuBar() {
   const { eventBus } = useContext(PageContext);
-  const [component, setComponent] = useState(null);
+  const [component, setComponent] = useState("default_menu");
   const [componentProps, setComponentProps] = useState({});
   const DynamicComponent = dynamic(() => import(`./${component}`));
   useEffect(() => {

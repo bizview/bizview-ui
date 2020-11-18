@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card, Spin, List, Switch } from "antd";
-import { getFeatures, setEnable } from "../service/feature_service";
-import DefaultLayout from "../components/default_layout/default_layout";
-import { PageContext } from "../service/util_service";
+import DefaultLayout from "../../../components/default_layout/default_layout";
+import { getFeatures, setEnable } from "../../../service/feature_service";
+import { PageContext } from "../../../service/util_service";
 
-export default function() {
+export default function Feature() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   let { siteInfo } = useContext(PageContext);

@@ -1,11 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input, InputNumber, Form } from "antd";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 
 function HtmlEditor(props) {
-  return props.value !== undefined ? <CKEditor editor={ClassicEditor}
-                                               data={props.value} onChange={(event, editor) => {
+  const editorRef = useRef({});
+  const [editorLoaded, setEditorLoaded] = useState(false);
+  const { CKEditor, ClassicEditor } = editorRef.current || {};
+  useEffect(() => {
+    editorRef.current = {
+      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
+      ClassicEditor: require("@ckeditor/ckeditor5-build-classic")
+    };
+    setEditorLoaded(true);
+  }, []);
+
+  return props.value !== undefined && editorLoaded ? <CKEditor editor={ClassicEditor} {...props.config}
+                                                               data={props.value} onChange={(event, editor) => {
     const data = editor.getData();
     props.onChange(data);
   }}/> : <div/>;
@@ -15,7 +25,10 @@ function DisplayField({ field, value }) {
   const fieldProps = JSON.parse(field.props);
   switch (fieldProps.type) {
     case "HTML":
-      return <CKEditor config={{ toolbar: [] }} disabled editor={ClassicEditor} data={value}/>;
+      return <HtmlEditor config={{
+        config: { toolbar: [] },
+        disabled: "disabled"
+      }} value={value}/>;
     case "Text":
     default:
       return value ? <span>{value}</span> : <div/>;

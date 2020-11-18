@@ -5,7 +5,6 @@ import { getItems } from "../../service/listitem_service";
 export default function PageView({ list, view }) {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  console.log("aaa");
   // noinspection DuplicatedCode
   const columns = view.fields.map(n => {
     const field = list.fields.find(f => f.name === n);

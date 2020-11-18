@@ -9,7 +9,7 @@ export default function User() {
   const menu = (
     <Menu style={{ minWidth: "160px" }}>
       <Menu.Item>
-        <a rel="noopener noreferrer" href={replaceUrl(siteInfo, `~/settings`)}>
+        <a rel="noopener noreferrer" href={`/s/${siteInfo.siteId}/settings`}>
           系统设置
         </a>
       </Menu.Item>

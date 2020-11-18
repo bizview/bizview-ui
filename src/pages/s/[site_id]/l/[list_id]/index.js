@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getItems } from "../../../../../service/listitem_service";
 import { Divider, Select, Spin, Table, Button } from "antd";
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
 import { PageContext } from "../../../../../service/util_service";
@@ -9,20 +8,17 @@ import dynamic from "next/dynamic";
 
 
 export default function DefaultView() {
-  let { siteInfo } = useContext(PageContext);
-  const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState([]);
+  const { siteInfo } = useContext(PageContext);
+  const [loading, setLoading] = useState(true);
   const [list, setList] = useState({
     properties: {
       views: []
     }
   });
   const [view, setView] = useState({
-    name: "默认视图",
+    name: "默认视图"
   });
-  const [columns, setColumns] = useState([]);
   const DynamicView = dynamic(() => import(`../../../../../components/views/${view.path}`));
-  console.log(view.path);
   useEffect(() => {
     const fetch = async () => {
       const list = await getList(siteInfo.listId);
@@ -30,38 +26,20 @@ export default function DefaultView() {
       if (!view) {
         view = list["properties"]["views"].find(v => v.defaultView);
       }
-      const items = await getItems(list["staticName"], view.filter);
-      view.path="page_view";
       setView(view);
-      setColumns(view.fields.map(n => {
-        const field = list.fields.find(f => f.name === n);
-        return {
-          title: field.title,
-          dataIndex: field.name,
-          width: field.name === "id" ? 80 : 0,
-          render: (prop, values) => {
-            if (field.name === "name") {
-              return <a href={values.itemUrl}>{prop}</a>;
-            } else {
-              return prop;
-            }
-          }
-        };
-      }));
       setList(list);
-      setItems(items);
       setLoading(false);
     };
     fetch().then();
   }, []);
 
   // noinspection JSUnresolvedVariable
-  return <DefaultLayout>
+  return loading ? <Spin/> : <DefaultLayout>
     <div className={"table-toolbar"}>
       <div className="table-toolbar-title">{list.title}</div>
       <div className="table-toolbar-option">
         <div className="table-toolbar-item">
-          <a href={`${list.listUrl}/f/create`}><Button
+          <a href={`${list.listUrl}/f/${list.properties.forms.newForm}`}><Button
             type={"primary"}><PlusOutlined/>新建</Button></a>
         </div>
         <Divider type="vertical"/>
