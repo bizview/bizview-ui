@@ -1,18 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Divider, Select, Spin, Table, Button } from "antd";
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
-import { PageContext } from "../../../../../service/util_service";
-import { getList } from "../../../../../service/list_service";
-import DefaultLayout from "../../../../../components/default_layout/default_layout";
 import dynamic from "next/dynamic";
+import DefaultLayout from "../../../../../../components/default_layout/default_layout";
+import { getList } from "../../../../../../service/list_service";
 
 
-export default function DefaultView({ list }) {
-  let view = list["properties"]["views"].find(v => v.name === window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1));
-  if (!view) {
-    view = list["properties"]["views"].find(v => v.defaultView);
-  }
-  const DynamicView = dynamic(() => import(`../../../../../components/views/${view.path}`));
+export default function ListView({ list, view }) {
+  const DynamicView = dynamic(() => import(`../../../../../../components/views/${view.path}`));
 
   return <DefaultLayout>
     <div className={"table-toolbar"}>
@@ -42,7 +37,7 @@ export default function DefaultView({ list }) {
   </DefaultLayout>;
 };
 
-DefaultView.getInitialProps = async ({ query, req }) => {
+ListView.getInitialProps = async ({ query, req }) => {
   const list = await getList(query.list_id, req.cookies.access_token);
-  return { list };
+  return { list, view: {} };
 };

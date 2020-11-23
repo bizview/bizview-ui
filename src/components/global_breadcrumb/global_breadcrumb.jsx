@@ -45,7 +45,7 @@ export default function GlobalBreadcrumb() {
     </Breadcrumb>
     <div style={{ marginRight: "5px", display: "flex", alignItems: "center" }}>
       <MenuBar/>
-      <a href={replaceUrl(siteInfo, `~/`)}>所有内容</a>
+      <a href={`/s/${siteInfo.siteId}`}>所有内容</a>
     </div>
   </>;
 }

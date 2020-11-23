@@ -1,8 +1,10 @@
+import Cookies from "js-cookie";
+
 export const apiUrl = `${process.env.NEXT_PUBLIC_API_HOST}/api/1.0`;
 
-export const fetchWithToken = (url, options = {}) => {
+export const fetchWithToken = (url, options = {}, accessToken) => {
   try {
-    const token = localStorage.getItem("access_token");
+    const token = accessToken ?? Cookies.get("access_token");
     const headers = token
       ? {
         Accept: "application/json",

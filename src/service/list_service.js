@@ -23,8 +23,8 @@ export const createList = async list => {
   return await response.json();
 };
 
-export const getList = async id => {
-  const response = await fetchWithToken(apiUrl + `/list/${id}`);
+export const getList = async (id, token) => {
+  const response = await fetchWithToken(apiUrl + `/list/${id}`, {}, token);
   return await response.json();
 };
 
@@ -32,6 +32,13 @@ export const saveList = async list => {
   const response = await fetchWithToken(apiUrl + `/list/`, {
     method: "put",
     body: JSON.stringify(list)
+  });
+  return await response.text();
+};
+
+export const deleteList = async id => {
+  const response = await fetchWithToken(apiUrl + `/list/${id}`, {
+    method: "delete"
   });
   return await response.text();
 };

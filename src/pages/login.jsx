@@ -1,6 +1,7 @@
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import React from "react";
 import { Form, Input, Button, message } from "antd";
+import Cookies from "js-cookie";
 import { login } from "../service/user_service";
 import styles from "./login.module.css";
 
@@ -13,7 +14,7 @@ export default function LoginForm() {
 
   const onFinish = async values => {
     try {
-      localStorage.setItem("access_token", (await login(values)).access_token);
+      Cookies.set("access_token", (await login(values)).access_token);
       location.href = "/";
     } catch (e) {
       message.warn("请检查用户名密码是否正确!, 详细信息:" + e);
