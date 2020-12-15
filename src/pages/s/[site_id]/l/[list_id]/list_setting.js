@@ -30,10 +30,10 @@ export default function ListSetting({ list }) {
           <a href={"info"}>基本信息</a>
         </li>
         <li>
-          <a>修改字段</a>
+          <a href={"field_edit"}>修改字段</a>
         </li>
         <li>
-          <a>共享</a>
+          <a href={"share"}>共享</a>
         </li>
         <li>
           <a>视图管理</a>

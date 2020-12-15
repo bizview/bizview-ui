@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Divider, Select, Spin, Table, Button } from "antd";
+import React from "react";
+import { Divider, Select, Button } from "antd";
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
-import { PageContext } from "../../../../../service/util_service";
 import { getList } from "../../../../../service/list_service";
 import DefaultLayout from "../../../../../components/default_layout/default_layout";
 import dynamic from "next/dynamic";

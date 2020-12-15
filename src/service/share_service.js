@@ -1,7 +1,17 @@
 import { apiUrl, fetchWithToken } from "./base_service";
 
-export const getRoleAssignments = async siteId => {
+export const getRoleAssignmentsBySiteId = async siteId => {
   const response = await fetchWithToken(apiUrl + "/roleassignment/query/" + siteId);
+  return await response.json();
+};
+
+export const getRoleAssignmentsByListId = async (siteId, listId, token) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/query/${siteId}/${listId}`, {}, token);
+  return await response.json();
+};
+
+export const getRoleAssignmentsByListIdAndItemId = async (siteId, listId, itemId) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/query/${siteId}/${listId}/${itemId}`);
   return await response.json();
 };
 
@@ -21,8 +31,24 @@ export const findRoleAssignmentBySiteIdAndPrincipleId = async (siteId, id) => {
 };
 
 
-export const createRoleAssignments = async (siteId, roleAssignments) => {
+export const createRoleAssignmentsBySiteId = async (siteId, roleAssignments) => {
   const response = await fetchWithToken(apiUrl + `/roleassignment/create/${siteId}`, {
+    method: "post",
+    body: JSON.stringify(roleAssignments)
+  });
+  return await response.json();
+};
+
+export const createRoleAssignmentsByListId = async (siteId, listId, roleAssignments) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/create/${siteId}/${listId}`, {
+    method: "post",
+    body: JSON.stringify(roleAssignments)
+  });
+  return await response.json();
+};
+
+export const createRoleAssignmentsByListIdAndItemId = async (siteId, listId, itemId, roleAssignments) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/create/${siteId}/${listId}/${itemId}`, {
     method: "post",
     body: JSON.stringify(roleAssignments)
   });
@@ -39,6 +65,22 @@ export const updateRoleAssignments = async roleAssignments => {
 
 export const deleteRoleAssignments = async (siteId, userIds) => {
   const response = await fetchWithToken(apiUrl + `/roleassignment/delete/${siteId}`, {
+    method: "post",
+    body: JSON.stringify(userIds)
+  });
+  return await response.text();
+};
+
+export const deleteRoleAssignmentsByListId = async (siteId, listId, userIds) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/delete/${siteId}/${listId}`, {
+    method: "post",
+    body: JSON.stringify(userIds)
+  });
+  return await response.text();
+};
+
+export const deleteRoleAssignmentsByItemId = async (siteId, listId, itemId, userIds) => {
+  const response = await fetchWithToken(apiUrl + `/roleassignment/delete/${siteId}/${listId}/${itemId}`, {
     method: "post",
     body: JSON.stringify(userIds)
   });

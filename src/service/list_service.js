@@ -36,6 +36,22 @@ export const saveList = async list => {
   return await response.text();
 };
 
+export const updateListFields = async (listId, fields) => {
+  const response = await fetchWithToken(apiUrl + `/list/${listId}/update_fields`, {
+    method: "post",
+    body: JSON.stringify(fields)
+  });
+  return await response.text();
+};
+
+export const updateListField = async (listId, field) => {
+  const response = await fetchWithToken(apiUrl + `/list/${listId}/update_field`, {
+    method: "post",
+    body: JSON.stringify(field)
+  });
+  return await response.text();
+};
+
 export const deleteList = async id => {
   const response = await fetchWithToken(apiUrl + `/list/${id}`, {
     method: "delete"
