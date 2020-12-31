@@ -36,7 +36,7 @@ export default function ListSetting({ list }) {
           <a href={"share"}>共享</a>
         </li>
         <li>
-          <a>视图管理</a>
+          <a href={"view_list"}>视图管理</a>
         </li>
       </ul>
     </Card>

@@ -16,9 +16,9 @@
             "editForm": "edit",
             "displayForm": "display"
           },
+          "defaultView": "defaultView",
           "views": [
             {
-              "defaultView": true,
               "title": "默认视图",
               "name": "defaultView",
               "fields": [
@@ -66,9 +66,9 @@
             "editForm": "edit",
             "displayForm": "display"
           },
+          "defaultView": "default",
           "views": [
             {
-              "defaultView": true,
               "title": "默认视图",
               "name": "default",
               "fields": [
@@ -99,9 +99,9 @@
             "editForm": "edit",
             "displayForm": "display"
           },
+          "defaultView": "default",
           "views": [
             {
-              "defaultView": true,
               "title": "默认视图",
               "name": "default",
               "fields": [
