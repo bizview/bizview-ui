@@ -1,7 +1,9 @@
 import DefaultLayout from "../../../../../components/default_layout/default_layout";
-import React, { useState, createRef, forwardRef, useImperativeHandle } from "react";
+import React, { useState, createRef, forwardRef, useImperativeHandle, useContext } from "react";
 import { Button, Card, Divider, Form, Input, message, Modal, Select, Spin, Table, InputNumber, Switch } from "antd";
 import { getList, updateListField } from "../../../../../service/list_service";
+import { BreadCrumbEvent } from "../../../../../components/global_breadcrumb/global_breadcrumb";
+import { PageContext } from "../../../../../service/util_service";
 
 const layout = {
   labelCol: { span: 6 },
@@ -75,6 +77,7 @@ FieldEditForm = forwardRef(FieldEditForm);
 
 export default function FieldEdit({ list }) {
   const fieldModalRef = createRef();
+  const { siteInfo } = useContext(PageContext);
   const [fields, setFields] = useState(list.fields);
   const [loading, setLoading] = useState(false);
 
@@ -104,6 +107,11 @@ export default function FieldEdit({ list }) {
   }
 
   return <DefaultLayout>
+    <BreadCrumbEvent crumbs={[
+      { icon: "home", href: `/s/${siteInfo.siteId}`, title: "Home" },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}`, title: list.title },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}/list_setting`, title: "列表设置" }
+    ]}/>
     <Spin spinning={loading}>
       <Card title={`${list.title} 字段编辑`}
             extra={<><Button style={{ marginRight: "5px" }} onClick={() => {

@@ -1,6 +1,7 @@
 export const MessageType = Object.freeze({
   menu: Symbol("menu"),
-  page: Symbol("page")
+  page: Symbol("page"),
+  crumb: Symbol("crumb")
 });
 
 export class ComponentMessage {

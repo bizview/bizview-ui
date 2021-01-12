@@ -4,6 +4,7 @@ import ViewWrapper from "../../../../../components/view_wrapper/view_wrapper";
 
 
 export default function DefaultView({ list }) {
+
   const view = list["properties"]["views"].find(v => v.name === list.properties.defaultView);
   return <ViewWrapper list={list} view={view}/>;
 };

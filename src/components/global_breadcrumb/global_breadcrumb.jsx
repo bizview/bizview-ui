@@ -1,40 +1,16 @@
 import { Breadcrumb } from "antd";
-import React, { useContext } from "react";
-import { PageContext, replaceUrl } from "../../service/util_service";
-import { siteMap } from "../../domain/site_map";
+import React, { useContext, useEffect, useState } from "react";
+import { PageContext } from "../../service/util_service";
 import MenuBar from "../menu_bar/menu_bar";
-
-
-const location = typeof window !== "undefined" ? window.location : {};
-
-const getBreadcrumb = (siteInfo) => {
-  const rootNode = [];
-  matchRoute(siteInfo, siteMap, rootNode);
-  return rootNode.reverse();
-};
-
-const matchRoute = (siteInfo, nodes, rootNode) => {
-  for (const node of nodes) {
-    node.href = replaceUrl(siteInfo, node.href);
-    node.noHref = false;
-    if (node.href === location.pathname) {
-      node.noHref = true;
-      rootNode.push(node);
-      return node;
-    } else if (node.children) {
-      const subNode = matchRoute(siteInfo, node.children, rootNode);
-      if (subNode) {
-        rootNode.push(node);
-        return node;
-      }
-    }
-  }
-};
-
+import { filter } from "rxjs/operators";
+import { ComponentMessage, MessageType } from "../../domain/component_message";
 
 export default function GlobalBreadcrumb() {
-  const { siteInfo } = useContext(PageContext);
-  const breadCrumb = getBreadcrumb(siteInfo);
+  const { siteInfo, eventBus } = useContext(PageContext);
+  const [breadCrumb, setBreadCrumb] = useState([]);
+  eventBus.pipe(filter(m => m.type === MessageType.crumb)).subscribe(({ message }) => {
+    setBreadCrumb(message);
+  });
   return <>
     <Breadcrumb style={{ margin: "16px 0", flex: 1 }}>
       {breadCrumb.map(crumb => (
@@ -48,4 +24,16 @@ export default function GlobalBreadcrumb() {
       <a href={`/s/${siteInfo.siteId}`}>所有内容</a>
     </div>
   </>;
+}
+
+
+/**
+ * @return {null}
+ */
+export function BreadCrumbEvent({crumbs}) {
+  let { siteInfo, eventBus } = useContext(PageContext);
+  useEffect(() => {
+    eventBus.next(new ComponentMessage(MessageType.crumb, crumbs));
+  }, [siteInfo]);
+  return null;
 }

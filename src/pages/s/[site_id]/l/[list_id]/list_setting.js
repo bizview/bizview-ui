@@ -3,6 +3,7 @@ import DefaultLayout from "../../../../../components/default_layout/default_layo
 import { Button, Card, Popconfirm, message } from "antd";
 import { deleteList, getList } from "../../../../../service/list_service";
 import { PageContext } from "../../../../../service/util_service";
+import { BreadCrumbEvent } from "../../../../../components/global_breadcrumb/global_breadcrumb";
 
 export default function ListSetting({ list }) {
   const { siteInfo } = useContext(PageContext);
@@ -17,6 +18,10 @@ export default function ListSetting({ list }) {
   };
 
   return <DefaultLayout>
+    <BreadCrumbEvent crumbs={[
+      { icon: "home", href: `/s/${siteInfo.siteId}`, title: "Home" },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}`, title: list.title }
+    ]}/>
     <Card title={`${list.title} 列表设置`} extra={<Popconfirm
       title="你想要删除列表吗?"
       onConfirm={onDelete}

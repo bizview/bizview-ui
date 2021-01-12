@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DefaultLayout from "../../../../../components/default_layout/default_layout";
 import { getList, saveList } from "../../../../../service/list_service";
 import {
@@ -18,6 +18,8 @@ import {
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import { BreadCrumbEvent } from "../../../../../components/global_breadcrumb/global_breadcrumb";
+import { PageContext } from "../../../../../service/util_service";
 
 const layout = {
   labelCol: { span: 3 },
@@ -114,7 +116,6 @@ function FieldSelector({ list, value, onChange }) {
  * @constructor
  */
 function ViewForm({ list, name }) {
-  console.log(list);
   const view = name === undefined ? {
     filter: {}
   } : list.properties.views.find(o => o.name === name);
@@ -190,6 +191,7 @@ async function deleteView(list, name) {
 }
 
 function ViewList({ list }) {
+  let { siteInfo } = useContext(PageContext);
   const columns = [
     {
       title: "名称",
@@ -212,6 +214,11 @@ function ViewList({ list }) {
     }
   ];
   return <DefaultLayout>
+    <BreadCrumbEvent crumbs={[
+      { icon: "home", href: `/s/${siteInfo.siteId}`, title: "Home" },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}`, title: list.title },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}/list_setting`, title: "列表设置" }
+    ]}/>
     <Card title={`${list.title} 视图管理`} extra={<a href={"#/new"}>新建</a>}>
       <Table columns={columns} dataSource={list.properties.views} rowKey={"name"}/>
     </Card>

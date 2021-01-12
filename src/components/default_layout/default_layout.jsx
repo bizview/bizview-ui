@@ -1,11 +1,11 @@
-import React from "react"
-import { Layout } from "antd"
-import ContentNavigator from "../content_navigator/content_navigator"
-import User from "../user/user"
-import GlobalBreadcrumb from "../global_breadcrumb/global_breadcrumb"
-import GlobalNavigator from "../global_navigator/global_navigator"
+import React from "react";
+import { Layout } from "antd";
+import ContentNavigator from "../content_navigator/content_navigator";
+import User from "../user/user";
+import GlobalBreadcrumb from "../global_breadcrumb/global_breadcrumb";
+import GlobalNavigator from "../global_navigator/global_navigator";
 
-const { Header, Sider, Content } = Layout
+const { Header, Sider, Content } = Layout;
 
 export default function DefaultLayout(props) {
   return <Layout>
@@ -33,5 +33,5 @@ export default function DefaultLayout(props) {
         </Content>
       </Layout>
     </Layout>
-  </Layout>
+  </Layout>;
 }

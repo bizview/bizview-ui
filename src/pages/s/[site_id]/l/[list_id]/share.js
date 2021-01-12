@@ -8,6 +8,7 @@ import {
   getRoleAssignmentsByListId
 } from "../../../../../service/share_service";
 import { PageContext } from "../../../../../service/util_service";
+import { BreadCrumbEvent } from "../../../../../components/global_breadcrumb/global_breadcrumb";
 
 
 export default function ListShareView({ list, roleAssignments, permissions }) {
@@ -19,6 +20,11 @@ export default function ListShareView({ list, roleAssignments, permissions }) {
     await createRoleAssignmentsByListId(siteInfo.siteId, siteInfo.listId, assignments);
   };
   return <DefaultLayout>
+    <BreadCrumbEvent crumbs={[
+      { icon: "home", href: `/s/${siteInfo.siteId}`, title: "Home" },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}`, title: list.title },
+      { href: `/s/${siteInfo.siteId}/l/${list.id}/list_setting`, title: "列表设置" }
+    ]}/>
     <ShareViewRoute title={list.title} roleAssignments={roleAssignments}
                     deleteShare={deleteShare}
                     createRoleAssignments={createRoleAssignments}

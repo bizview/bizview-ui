@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllUsers, deleteUser } from "../service/user_service";
 import { Button, Card, Spin, Table, message, Divider, Popconfirm } from "antd";
 import DefaultLayout from "../components/default_layout/default_layout";
+import { BreadCrumbEvent } from "../components/global_breadcrumb/global_breadcrumb";
 
 export default function() {
   const deleteUserFunc = async (id) => {
@@ -68,6 +69,10 @@ export default function() {
   }, []);
 
   return <DefaultLayout>
+    <BreadCrumbEvent crumbs={[
+      { icon: "home", href: `/s/1`, title: "Home" },
+      { href: `/s/1/settings`, title: "站点设置" },
+    ]}/>
     <Card
       title="用户管理"
       bordered={false}
