@@ -9,8 +9,21 @@ export const getItems = async (list, filter) => {
   return await response.json();
 };
 
+export const getItemsInFolder = async (list, pid, filter) => {
+  const response = await fetchWithToken(apiUrl + `/record/${list}/list/${pid !== undefined ? pid : 0}`, {
+    method: "post",
+    body: JSON.stringify(filter)
+  });
+  return await response.json();
+};
+
 export const getItem = async (list, id) => {
   const response = await fetchWithToken(apiUrl + `/record/${list}/get/${id}`);
+  return await response.json();
+};
+
+export const getItemMap = async (list, id) => {
+  const response = await fetchWithToken(apiUrl + `/record/${list}/map/${id}`);
   return await response.json();
 };
 

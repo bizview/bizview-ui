@@ -52,13 +52,14 @@ function EditField(props) {
 
 export default function FieldRef(props) {
   const edit = props.edit;
-  const { fieldName } = props;
+  const { fieldName, showLabel } = props;
   const { item } = props;
   const { fields } = item.list;
   const field = fields.find(f => f.name === fieldName);
   const value = item[fieldName];
   if (edit) {
-    return <Form.Item name={field.name} initialValue={value === undefined ? "" : value}><EditField
+    return <Form.Item name={field.name} initialValue={value === undefined ? "" : value}
+                      label={showLabel && field.title}><EditField
       field={field}/></Form.Item>;
   } else {
     return <DisplayField field={field} value={value}/>;

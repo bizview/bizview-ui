@@ -9,8 +9,12 @@
       "description": "",
       "list": {
         "isVirtual": false,
+        "listType": "list",
         "fields": [],
         "properties": {
+          "contentType": [
+            "item"
+          ],
           "forms": {
             "newForm": "create",
             "editForm": "edit",
@@ -40,6 +44,7 @@
       "title": "页面库",
       "description": "",
       "list": {
+        "listType": "list",
         "isVirtual": false,
         "fields": [
           {
@@ -61,6 +66,9 @@
           }
         ],
         "properties": {
+          "contentType": [
+            "page"
+          ],
           "forms": {
             "newForm": "create_page",
             "editForm": "edit",
@@ -92,8 +100,13 @@
       "description": "",
       "list": {
         "isVirtual": false,
+        "listType": "document",
         "fields": [],
         "properties": {
+          "contentType": [
+            "document",
+            "folder"
+          ],
           "forms": {
             "newForm": "upload_document",
             "editForm": "edit",

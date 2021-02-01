@@ -81,3 +81,8 @@ export const resetPassword = async user => {
   });
   return await response.json();
 };
+
+export const getPermissions = async (siteId, listId, itemId) => {
+  const response = await fetchWithToken(apiUrl + `/api/1.0/${siteId}/get_permissions/${listId}/${itemId}`);
+  return await response.json();
+};

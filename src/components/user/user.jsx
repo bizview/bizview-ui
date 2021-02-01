@@ -1,6 +1,8 @@
 import { Avatar, Dropdown, Menu } from "antd";
 import React, { useContext } from "react";
 import { PageContext, replaceUrl } from "../../service/util_service";
+import CheckRole from "./check_role";
+import { SystemPermission } from "../../domain/permissions";
 
 const location = typeof window !== "undefined" ? window.location : {};
 export default function User() {
@@ -9,9 +11,11 @@ export default function User() {
   const menu = (
     <Menu style={{ minWidth: "160px" }}>
       <Menu.Item>
-        <a rel="noopener noreferrer" href={`/s/${siteInfo.siteId}/settings`}>
-          系统设置
-        </a>
+        <CheckRole roles={[SystemPermission.SITE_EDITOR]}>
+          <a rel="noopener noreferrer" href={`/s/${siteInfo.siteId}/settings`}>
+            系统设置
+          </a>
+        </CheckRole>
       </Menu.Item>
       <Menu.Item>
         <button className={"link-button"} style={{ width: "100%" }}

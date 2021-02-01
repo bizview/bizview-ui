@@ -23,6 +23,8 @@ export const fetchWithToken = (url, options = {}, accessToken) => {
       ...options
     }).then(response => {
       if (response.status === 401) {
+        Cookies.remove("access_token");
+        location.href = "/401";
         throw new Error("没有权限访问");
       } else if (response.status !== 200) {
         throw new Error("操作失败," + response.status);
