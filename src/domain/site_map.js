@@ -9,9 +9,9 @@ export const siteMap = [
         title: "设置",
         children: [
           {
-            href: "/user", title: "用户", children: [
-              { href: "/user/create_user", title: "创建用户", onNav: false },
-              { href: "/user/edit_user", title: "编辑用户", onNav: false }
+            href: "~/user", title: "用户", children: [
+              { href: "~/user/create_user", title: "创建用户", onNav: false },
+              { href: "~/user/edit_user", title: "编辑用户", onNav: false }
             ]
           },
           {

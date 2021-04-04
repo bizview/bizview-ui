@@ -10,13 +10,13 @@ export default function User() {
 
   const menu = (
     <Menu style={{ minWidth: "160px" }}>
-      <Menu.Item>
-        <CheckRole roles={[SystemPermission.SITE_EDITOR]}>
+      <CheckRole roles={[SystemPermission.SITE_EDITOR]}>
+        <Menu.Item>
           <a rel="noopener noreferrer" href={`/s/${siteInfo.siteId}/settings`}>
             系统设置
           </a>
-        </CheckRole>
-      </Menu.Item>
+        </Menu.Item>
+      </CheckRole>
       <Menu.Item>
         <button className={"link-button"} style={{ width: "100%" }}
                 onClick={() => {

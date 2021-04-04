@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { getNavigator, setSiteNavigator } from "../service/site_service";
+import { getNavigator, setSiteNavigator } from "../../../service/site_service";
 import { Form, Spin, Radio, Input, Button, Card, Tree, Modal, message } from "antd";
-import { PageContext } from "../service/util_service";
-import DefaultLayout from "../components/default_layout/default_layout";
+import DefaultLayout from "../../../components/default_layout/default_layout";
+import { PageContext } from "../../../service/util_service";
 
 const { TreeNode } = Tree;
 const layout = {
@@ -35,109 +35,105 @@ function CreateForm(props) {
   </Modal>;
 }
 
-class NavigatorTreeView extends React.Component {
-  state = {
-    defaultExpandedKeys: [],
-    visible: false,
-    loading: false
-  };
+let selectedIndex;
+let selectedNode;
+let selectedNodeParent;
 
-  renderTreeNode(node, i, parent) {
+function NavigatorTreeView(props) {
+  const [defaultExpandedKeys, setDefaultExpandedKeys] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [nodes, setNodes] = useState(props.value);
+
+  function renderTreeNode(node, i, parent) {
     return (
       <TreeNode
         key={node.name}
         title={node.name}
         onSelect={() => {
-          this.selectedIndex = i;
-          this.selectedNode = node;
-          this.selectedNodeParent = parent;
+          selectedIndex = i;
+          selectedNode = node;
+          selectedNodeParent = parent;
         }}>
         {node.children &&
         node.children.map((subNode, i) => {
-          return this.renderTreeNode(subNode, i, node);
+          return renderTreeNode(subNode, i, node);
         })}
       </TreeNode>
     );
   }
 
-  // noinspection DuplicatedCode
-  delete = () => {
-    this.setState({ loading: true });
-    const nodes = this.props.value;
-    if (this.selectedNodeParent) {
-      this.selectedNodeParent.children.splice(this.selectedIndex, 1);
+  const deleteNode = () => {
+    const nodes = props.value;
+    if (selectedNodeParent) {
+      selectedNodeParent.children.splice(selectedIndex, 1);
     } else {
-      nodes.splice(this.selectedIndex, 1);
+      nodes.splice(selectedIndex, 1);
     }
-    this.selectedNode = null;
-    this.setState({ loading: false });
+    selectedNode = null;
   };
 
-  render() {
-    const nodes = this.props.value;
-    const { defaultExpandedKeys } = this.state;
-    return (
-      <Card
-        extra={
-          <div>
-            <Button onClick={this.delete} style={{ marginRight: "5px" }} disabled={!this.selectedNode}>
-              删除
-            </Button>
-            <Button onClick={this.createTreeNode}>创建</Button>
-          </div>
-        }>
-        <CreateForm
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleInsertAddress}
-        />
-        {nodes.length > 0 && (
-          <Tree defaultExpandedKeys={defaultExpandedKeys} onSelect={this.onSelect}>
-            {nodes.map((node, i) => this.renderTreeNode(node, i))}
-          </Tree>
-        )}
-      </Card>
-    );
-  }
-
-  onSelect = (selectedKeys, info) => {
+  const onSelect = (selectedKeys, info) => {
     if (info.selectedNodes.length > 0) {
       info.selectedNodes.forEach(node => {
         node.onSelect();
       });
     } else {
-      this.selectedNode = null;
+      selectedNode = null;
     }
-    this.setState({ defaultExpandedKeys: selectedKeys });
+    setDefaultExpandedKeys(selectedKeys);
   };
 
-  createTreeNode = () => {
-    this.setState({ visible: true });
+  const createTreeNode = () => {
+    setVisible(true);
   };
 
-  handleCancel = () => {
-    this.setState({ visible: false });
+  const handleCancel = () => {
+    setVisible(false);
   };
 
-  handleInsertAddress = (values) => {
+  const handleInsertAddress = (values) => {
     const node = { name: values.name, url: values.url, children: [] };
-    const nodes = this.props.value;
-    if (this.selectedNode) {
-      this.selectedNode.children = [...(this.selectedNode.children || []), node];
+    if (selectedNode) {
+      selectedNode.children = [...(selectedNode.children || []), node];
     } else {
       nodes.push(node);
     }
-    this.setState({ nodes, visible: false });
-    this.props.onChange(nodes);
+    setNodes(nodes);
+    setVisible(false);
+    props.onChange(nodes);
   };
+
+  return (
+    <Card
+      extra={
+        <div>
+          <Button onClick={deleteNode} style={{ marginRight: "5px" }} disabled={!selectedNode}>
+            删除
+          </Button>
+          <Button onClick={createTreeNode}>创建</Button>
+        </div>
+      }>
+      <CreateForm
+        visible={visible}
+        onCancel={handleCancel}
+        onCreate={handleInsertAddress}
+      />
+      {nodes.length > 0 && (
+        <Tree defaultExpandedKeys={defaultExpandedKeys} onSelect={onSelect}>
+          {nodes.map((node, i) => renderTreeNode(node, i))}
+        </Tree>
+      )}
+    </Card>
+  );
 }
 
 export default function() {
-  const { siteInfo } = useContext(PageContext);
   const [loading, setLoading] = useState(false);
   const [navigator, setNavigator] = useState({
     links: []
   });
+  const { siteInfo } = useContext(PageContext);
+
   const handleSubmit = async (values) => {
     navigator.links = values.links;
     navigator.siteMap = values.siteMap;
@@ -146,7 +142,7 @@ export default function() {
   };
 
   const fetchNavigator = useCallback(async (siteMap) => {
-    const navigator = await getNavigator(siteInfo.siteId, 2, siteMap);
+    const navigator = await getNavigator(siteInfo.siteId, 1, siteMap);
     setNavigator(navigator);
     setLoading(false);
   }, [siteInfo]);
@@ -168,6 +164,7 @@ export default function() {
               onChange={async e => {
                 await fetchNavigator(e.target.value);
               }}>
+              <Radio.Button value="TOP_SITE">顶级导航</Radio.Button>
               <Radio.Button value="SITE">当前站点</Radio.Button>
               <Radio.Button value="CUSTOM">自定义</Radio.Button>
             </Radio.Group>

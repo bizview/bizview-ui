@@ -23,8 +23,8 @@ export const createList = async list => {
   return await response.json();
 };
 
-export const getList = async (id, token) => {
-  const response = await fetchWithToken(apiUrl + `/list/${id}`, {}, token);
+export const getList = async (id, token, res) => {
+  const response = await fetchWithToken(apiUrl + `/list/${id}`, {}, token, res);
   return await response.json();
 };
 

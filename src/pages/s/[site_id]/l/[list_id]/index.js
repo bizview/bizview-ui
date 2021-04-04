@@ -11,18 +11,14 @@ export default function DefaultView({ list, mapInfo }) {
 
 DefaultView.getInitialProps = async ({ query, req, res }) => {
   try {
-    const list = await getList(query.list_id, req.cookies.access_token);
+    const list = await getList(query.list_id, req.cookies.access_token, res);
     if (query.pid) {
-      const mapInfo = await getItemMap(query.list_id, query.pid, req.cookies.access_token);
+      const mapInfo = await getItemMap(query.list_id, query.pid, req.cookies.access_token, res);
       return { list, mapInfo };
     } else {
       return { list };
     }
   } catch (e) {
     console.log(e);
-    res.writeHead(301, {
-      Location: "/login"
-    });
-    res.end();
   }
 };

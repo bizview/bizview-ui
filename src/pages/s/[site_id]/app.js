@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { createList, getApplication, getApplications } from "../service/list_service";
+import { createList, getApplication, getApplications } from "../../../service/list_service";
 import { Button, Card, Form, Input, List, Spin } from "antd";
-import { PageContext } from "../service/util_service";
-import DefaultLayout from "../components/default_layout/default_layout";
+import { PageContext } from "../../../service/util_service";
+import DefaultLayout from "../../../components/default_layout/default_layout";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 const location = typeof window !== "undefined" ? window.location : {};

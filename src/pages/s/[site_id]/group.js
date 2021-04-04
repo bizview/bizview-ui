@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Spin, Table, message, Divider, Popconfirm } from "antd";
-import DefaultLayout from "../components/default_layout/default_layout";
-import { deleteGroup, getGroups } from "../service/group_service";
+import DefaultLayout from "../../../components/default_layout/default_layout";
+import { deleteGroup, getGroups } from "../../../service/group_service";
+import { BreadCrumbEvent } from "../../../components/global_breadcrumb/global_breadcrumb";
+import { PageContext } from "../../../service/util_service";
 
 
 export default function() {
+  let { siteInfo } = useContext(PageContext);
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState([]);
 
@@ -65,6 +68,10 @@ export default function() {
   }, []);
 
   return <DefaultLayout>
+    <BreadCrumbEvent crumbs={[
+      { icon: "home", href: `/s/${siteInfo.siteId}`, title: "Home" },
+      { icon: "home", href: `/s/${siteInfo.siteId}/settings`, title: "网站设置" }
+    ]}/>
     <Card
       title="组管理"
       bordered={false}

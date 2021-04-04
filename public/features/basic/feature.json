@@ -30,8 +30,15 @@
                 "name"
               ],
               "filter": {
-                "orderBy": "id asc",
-                "limit": 10
+                "page": {
+                  "size": 10,
+                  "sort": [
+                    {
+                      "direction": "ASC",
+                      "property": "id"
+                    }
+                  ]
+                }
               },
               "path": "default_view"
             }
@@ -85,8 +92,15 @@
                 "title"
               ],
               "filter": {
-                "orderBy": "id asc",
-                "limit": 10
+                "page": {
+                  "size": 10,
+                  "sort": [
+                    {
+                      "direction": "ASC",
+                      "property": "id"
+                    }
+                  ]
+                }
               },
               "path": "page_view"
             }
@@ -122,8 +136,15 @@
                 "name"
               ],
               "filter": {
-                "orderBy": "id asc",
-                "limit": 10
+                "page": {
+                  "size": 10,
+                  "sort": [
+                    {
+                      "direction": "ASC",
+                      "property": "id"
+                    }
+                  ]
+                }
               },
               "path": "document_view"
             }

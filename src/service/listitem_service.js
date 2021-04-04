@@ -22,8 +22,8 @@ export const getItem = async (list, id) => {
   return await response.json();
 };
 
-export const getItemMap = async (list, id) => {
-  const response = await fetchWithToken(apiUrl + `/record/${list}/map/${id}`);
+export const getItemMap = async (list, id, res) => {
+  const response = await fetchWithToken(apiUrl + `/record/${list}/map/${id}`, res);
   return await response.json();
 };
 

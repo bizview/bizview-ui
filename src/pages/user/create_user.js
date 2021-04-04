@@ -13,7 +13,7 @@ const tailLayout = {
 
 const location = typeof window !== "undefined" ? window.location : {};
 
-export default function() {
+export default function CreateUser() {
   const [loading, setLoading] = useState(false);
 
   const onFinish = async values => {

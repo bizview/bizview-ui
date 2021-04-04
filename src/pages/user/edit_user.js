@@ -14,7 +14,7 @@ const tailLayout = {
 
 const location = typeof window !== "undefined" ? window.location : {};
 
-export default function(props) {
+export default function EditUser(props) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [user, setUser] = useState({});

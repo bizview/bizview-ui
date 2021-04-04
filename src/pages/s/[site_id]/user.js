@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getAllUsers, deleteUser } from "../service/user_service";
+import { getAllUsers, deleteUser } from "../../../service/user_service";
 import { Button, Card, Spin, Table, message, Divider, Popconfirm } from "antd";
-import DefaultLayout from "../components/default_layout/default_layout";
-import { BreadCrumbEvent } from "../components/global_breadcrumb/global_breadcrumb";
+import DefaultLayout from "../../../components/default_layout/default_layout";
+import { BreadCrumbEvent } from "../../../components/global_breadcrumb/global_breadcrumb";
 
-export default function() {
+export default function User() {
   const deleteUserFunc = async (id) => {
     setLoading(true);
     await deleteUser(id);

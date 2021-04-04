@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getThemes, setTheme } from "../service/site_service";
+import { getThemes, setTheme } from "../../../service/site_service";
 import { Button, Card, List, Spin, message } from "antd";
-import { PageContext } from "../service/util_service";
-import DefaultLayout from "../components/default_layout/default_layout";
+import { PageContext } from "../../../service/util_service";
+import DefaultLayout from "../../../components/default_layout/default_layout";
 
 const location = typeof window !== "undefined" ? window.location : {};
 export default function() {

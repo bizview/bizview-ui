@@ -1,8 +1,22 @@
 import React from "react";
-import DefaultLayout from "../components/default_layout/default_layout";
+import { Typography} from "antd";
+
+const { Title, Paragraph, Link } = Typography;
 
 export default function Page401() {
-  return <DefaultLayout>
-    <div>401</div>
-  </DefaultLayout>;
+  return <div>
+    <Typography>
+      <Title>401</Title>
+      <Paragraph>
+        <ul>
+          <li>
+            <Link href={"/login"}>登陆</Link>
+          </li>
+          <li>
+            <Link href="/">返回首页</Link>
+          </li>
+        </ul>
+      </Paragraph>
+    </Typography>
+  </div>;
 }
